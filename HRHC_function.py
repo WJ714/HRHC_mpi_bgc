@@ -1,5 +1,5 @@
 import numpy as np
-import xgb4caglar
+import XGBoost as XGBoost
 import xarray as xr
 
 def latent_heat_vaporization(TA):
@@ -127,7 +127,7 @@ class HRHC_Correcter():
             residual = (rn - H -G)
         residual[residual<0.1] = np.nan
         le[le<0] = np.nan
-        self.ec["EBC"] = le / residual
+        self.ec["LER"] = le / residual
         
         xvars = ["RH"]
         self.xvars = xvars
@@ -151,7 +151,7 @@ class HRHC_Correcter():
         idxTrain = np.zeros(mask_na.shape, dtype=bool)
         idxTrain[goodID[split:]] = True
 
-        LER_obj = xgb4caglar.xgbTrain(X, y, idxTest=idxTest, idxTrain=idxTrain, 
+        LER_obj = XGBoost.xgbTrain(X, y, idxTest=idxTest, idxTrain=idxTrain, 
                                         x_mono=np.array(self.mono),
                                         idxPred=mask_na, ntrees=1000, early_stopping_rounds=20, 
                                         trainModel=True, calcFI=False, retrainWithTest=True)
@@ -198,10 +198,10 @@ class HRHC_Correcter():
         LER_pred = self.ec['LER_pred'].copy()
         imb_ref= np.nanpercentile(LER_pred, 60)
             
-        if imb_ref > LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-0.5)).argmin()]:
-            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-0.5)).argmin()]  
-        if imb_ref < LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-0.95)).argmin()]:
-            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-0.95)).argmin()]
+        if imb_ref > LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-50)).argmin()]:
+            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-50)).argmin()]  
+        if imb_ref < LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-95)).argmin()]:
+            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-95)).argmin()]
         LER_pred[LER_pred>imb_ref]= imb_ref
 
         self.ec['LER_pred_plot'] = LER_pred.copy()
