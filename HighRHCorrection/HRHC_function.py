@@ -1,5 +1,5 @@
 import numpy as np
-import XGBoost as XGBoost
+import HighRHCorrection.XGBoost as XGBoost
 import xarray as xr
 
 def latent_heat_vaporization(TA):
