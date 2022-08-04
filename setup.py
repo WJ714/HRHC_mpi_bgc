@@ -2,7 +2,7 @@ import os
 import re
 import setuptools
 
-PKG_NAME = "hrhc"
+PKG_NAME = "hirhc"
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
