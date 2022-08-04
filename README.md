@@ -21,5 +21,5 @@ Requirements:
 
 Download the files:
 - XGBoost.py
-- HRHC_function.py
+- hirhc_function.py
 Then following the tutorial accordingly to get the corrected LE.

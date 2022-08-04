@@ -1,5 +1,5 @@
 import numpy as np
-import HighRHCorrection.XGBoost as XGBoost
+import hirhc.XGBoost as XGBoost
 import xarray as xr
 
 def latent_heat_vaporization(TA):
@@ -230,4 +230,3 @@ class HRHC_Correcter():
         self.ec['Fcor'] = Fcor
         self.ec['LEcor'] = LEcor
         self.ec['ETcor'] = ET_cor
-

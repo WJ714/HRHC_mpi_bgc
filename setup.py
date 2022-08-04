@@ -2,7 +2,7 @@ import os
 import re
 import setuptools
 
-PKG_NAME = "HighRHCorrection"
+PKG_NAME = "hrhc"
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
