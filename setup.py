@@ -33,6 +33,6 @@ setuptools.setup(
     long_description = long_description,
     long_description_content_type = "text/markdown",
     packages         = [PKG_NAME],
-    url              = "https://git.bgc-jena.mpg.de/fluxcom/myproject",
+    url              = "https://github.com/WJ714/HRHC_mpi_bgc",
     python_requires  = '>=3.6',
 )
