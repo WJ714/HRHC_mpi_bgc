@@ -1,0 +1,8 @@
+Version: 1.0
+message: "If you use this approach, please cite the DOI of the corresponding paper: updated later."
+authors:
+  - family-names: Zhang
+    given-names: Weijie
+title: WJ714/HRHC_mpi_bgc: Weijie_Zhang_HighRelativeHumidityCorrection
+version: v-1.0
+date-released: 2022-09-15
