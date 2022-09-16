@@ -97,7 +97,7 @@ class HRHC_Correcter():
         if np.isnan(self.ec["NETRAD_QC"].values).all() or np.all(self.ec.NETRAD_QC == na_QC):
             self.ec["NETRAD_QC"] = self.ec["NEE_QC"]
 
-        maskQC = (self.ec["LE_QC"]==0) & (self.ec["NETRAD_QC"]==0) & (self.ec["H_QC"]==0)        
+        maskQC = (self.ec["NEE_QC"]==0) &(self.ec["LE_QC"]==0) & (self.ec["NETRAD_QC"]==0) & (self.ec["H_QC"]==0)        
 #       maskQC = maskQC & (self.ec["G_QC"]==0) ## no need to add G_QC
 
         mask_base = maskQC & (self.ec.RH >= 0) & (self.ec.ET >= 0) #
@@ -125,7 +125,7 @@ class HRHC_Correcter():
             residual = (rn - H) # meaning ignore G if there is no G at all in the dataset
         else:
             residual = (rn - H -G)
-        residual[residual<0.1] = np.nan
+        residual[residual<10] = np.nan
         le[le<0] = np.nan
         self.ec["LER"] = le / residual
         
@@ -196,12 +196,9 @@ class HRHC_Correcter():
         LE = self.ec["LE"]       
 
         LER_pred = self.ec['LER_pred'].copy()
+        imb_ref = EBC_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-0.5)).argmin()]
         imb_ref= np.nanpercentile(LER_pred, 60)
             
-        if imb_ref > LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-50)).argmin()]:
-            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-50)).argmin()]  
-        if imb_ref < LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-95)).argmin()]:
-            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-95)).argmin()]
         LER_pred[LER_pred>imb_ref]= imb_ref
 
         self.ec['LER_pred_plot'] = LER_pred.copy()
@@ -211,7 +208,7 @@ class HRHC_Correcter():
         lower_bound = 1
         upper_bound = 999
         Fcor= np.fmin(np.fmax(imb_cor, lower_bound), upper_bound)
-        LE_pot = (0.9 * self.ec.NETRAD[self.mask_na]).reindex_like(self.ec.LE)
+        LE_pot = ((self.ec.NETRAD-self.ec.G-self.ec.H)[self.mask_na]).reindex_like(self.ec.LE)
         LEcor = np.fmin((LE*Fcor), np.fmax(LE,LE_pot)).fillna(LE)
         
         if self.ec.agg_code == 'HH':
