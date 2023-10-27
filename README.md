@@ -9,6 +9,8 @@ https://doi.org/10.13140/RG.2.2.10897.10082
 
 ### Installation
 
+python setup.py install
+
 Requirements:
 
     numpy
