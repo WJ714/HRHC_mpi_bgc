@@ -9,7 +9,8 @@ https://doi.org/10.13140/RG.2.2.10897.10082
 
 ### Installation
 
-python setup.py install
+
+    pip install git+https://github.com/WJ714/HRHC_mpi_bgc.git
 
 Requirements:
 
@@ -21,7 +22,4 @@ Requirements:
 
 ### applying for 'your' data:
 
-Download the files:
-- XGBoost.py
-- hirhc_function.py
-Then following the tutorial accordingly to get the corrected LE.
+Following the tutorial accordingly to get the corrected LE.
