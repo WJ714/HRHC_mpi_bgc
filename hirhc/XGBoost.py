@@ -97,7 +97,7 @@ class xgbTrain(object):
             Dpred=xgb.DMatrix(self.X[:,vidx][self.idxTest,:], label=self.Y[self.idxTest])            
             evallist=[(Dpred,'eval')]    
             bst = xgb.train(self.xgbparams,Dtrain, self.ntrees,evallist,early_stopping_rounds=self.early_stopping_rounds,verbose_eval=False)
-            best_ntree=bst.best_ntree_limit
+            best_ntree=bst.best_iteration # due to the update of 'best_ntree_limit' to 'best_iteration'
             if best_ntree == self.ntrees:
                 print('Warning: underfitting!, Increase LR or nTrees')
             mse=bst.best_score**2
