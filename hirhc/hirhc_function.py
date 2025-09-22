@@ -196,8 +196,12 @@ class HRHC_Correcter():
         LE = self.ec["LE"]       
 
         LER_pred = self.ec['LER_pred'].copy()
-        imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-0.5)).argmin()]
-        # imb_ref= np.nanpercentile(LER_pred, 60)
+        imb_ref= np.nanpercentile(LER_pred, 60)
+            
+        if imb_ref > LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-50)).argmin()]:
+            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-50)).argmin()]  
+        if imb_ref < LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-95)).argmin()]:
+            imb_ref = LER_pred[self.mask_na][(np.abs(self.ec["RH"][self.mask_na]-95)).argmin()]
             
         LER_pred[LER_pred>imb_ref]= imb_ref
 
